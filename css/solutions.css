@@ -1,0 +1,263 @@
+/* 
+ =================================================================
+ SOLUZIONE 1: Icona fuoco nella prima stat card
+ =================================================================
+ */
+.stats-grid:first-child::before {
+	content: '🔥';
+	display: block;
+	font-size: 2rem;
+	margin-bottom: 10px;
+}
+
+/* 
+ ================================================================
+ SOLUZIONE 2: Evidenzia la terza stat card
+ ================================================================
+ */
+/* 
+TIPS linear-gradient(angolo, colore1 posizione1, colore2 posizione2, ...)
+
+PARAMETRI spiegati:
+1. ANGOLO (135deg): direzione sfumatura, da asse Y+ (orario)
+   • 0deg   = dal basso → alto
+   • 90deg  = sinistra → destra  
+   • 180deg = alto → basso
+   • 135deg = diagonale alto-sinistra → basso-destra
+
+2. COLOR STOP: colore + posizione lungo linea (0% = inizio, 100% = fine)
+   • #667eea 0%  = colore iniziale
+   • #764ba2 100% = colore finale
+
+ES: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
+    → Da blu-violaceo (inizio) a viola scuro (fine) con sfumatura diagonale
+
+TRUCCHI:
+- 3 colori: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%)
+- Aree solide: linear-gradient(red 0%, red 30%, blue 70%, blue 100%)
+- Orizzontale: linear-gradient(to right, #667eea, #764ba2)
+*/
+.stats-container .stats-grid:nth-child(3) {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+}
+
+.stats-container .stats-grid:nth-child(3) .stat-number,
+.stats-container .stats-grid:nth-child(3) .stat-label {
+	color: white;
+}
+
+/* 
+ ================================================================
+ SOLUZIONE 3: Effetto hover sulle stat cards
+ ================================================================
+ */
+.stats-grid {
+	transition: translate 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* 
+TIPS box-shadow: offset-x | offset-y | blur-radius | spread-radius | color
+
+PARAMETRI spiegati:
+1. offset-x (0)     : spostamento orizzontale (positivo=destra)
+2. offset-y (8px)   : spostamento verticale   (positivo=giù)
+3. blur-radius (20px): raggio sfocatura (0=nitida, più alto=più morbida)
+4. spread-radius (0): espansione ombra (positivo=più grande)
+5. color            : colore ombra (rgba per trasparenza)
+
+ES: box-shadow: 0 8px 20px 0 rgba(0,0,0,0.15)
+    → centrata, 8px giù,
+	  sfocata 20px,
+	  normale dimensione,
+	  nero 15% opaco
+
+TRUCCHI:
+- Ombra "sollevata": 0 4px 15px rgba(0,0,0,0.1)
+- Ombra interna:   inset 0 2px 10px rgba(0,0,0,0.1)
+- Multi-ombra:     0 2px 4px rgba(0,0,0,0.1), 0 8px 20px rgba(0,0,0,0.15)
+*/
+.stats-grid:hover {
+	translate: 0 -5px;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/*
+ ================================================================
+ SOLUZIONE 4: Evidenzia il secondo piano allenamento
+ ================================================================
+ */
+/* è il terzo perché il primo fratello è l'h2!!! */
+.workout-plan:nth-child(3) {
+	border-left: 5px solid #f39c12;
+	background-color: #fff8ba;
+}
+
+/*
+ ================================================================
+ SOLUZIONE 5: Bordi verdi per primo e ultimo esercizio
+ ================================================================
+ */
+.exercise-item:first-child,
+.exercise-item:last-child {
+	border-left-color: #2ecc71;
+	background: #f0fff4;
+}
+
+/*
+ ================================================================
+ SOLUZIONE 6: Icona fulmine negli esercizi pari
+ ================================================================
+*/
+.exercise-item:nth-child(even)::before {
+	content: '⚡';
+	margin-right: 8px;
+	color: #f39c12;
+}
+
+/*
+ ================================================================ 
+ SOLUZIONE 7-8: Transizione per focus e Focus sui campi input
+ ================================================================
+ */
+/* 
+TIPS TRANSITION: proprietà da animare | durata | curva | delay(opzionale)
+
+SINTOSSI: 
+transition: [property] [duration] [timing-function] [delay];
+
+ESEMPIO SPIEGATO:
+transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+PARAMETRI:
+1. border-color     : proprietà che cambia (colore bordo)
+2. 0.3s             : DURATA animazione (300ms)
+3. ease             : CURVA temporale:
+   • ease     = lenta-inizio/fine, veloce-centro (naturale)
+   • linear   = velocità costante
+   • ease-in  = lenta → veloce
+   • ease-out = veloce → lenta
+4. (nessun delay)   = inizia immediatamente
+
+COSA SUCCEDE:
+- input normale → bordo grigio sottile
+- input:FOCUS → bordo diventa #667eea + ombra azzurra
+- ANIMAZIONE: invece del cambio istantaneo, il bordo/ombra 
+  si anima FLUIDAMENTE in 0.3 secondi! ✨
+
+TRUCCHI:
+- Shorthand completo: transition: all 0.3s ease 0.1s;
+- Più proprietà: transition: all 0.3s ease;
+- Durate diverse: border-color 0.2s, box-shadow 0.4s ease;
+*/
+.goal-input-group input,
+.goal-input-group select {
+	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 
+TIPS outline: none - PERCHÈ E COME USARLO
+
+🚨 PROBLEMA: Browser aggiunge automaticamente un contorno blu/arancione 
+su input/button quando li clicchi (focus)
+
+outline: none;  ← RIMUOVE QUESTO CONTORNO PREDEFINITO
+
+PERCHÈ LO FAI:
+1. Design pulito: sostituisci l'outline "brutto" con la tua ombra personalizzata
+2. Controllo totale sull'aspetto focus
+
+ESATTAMENTE COSA SUCCEDE nel tuo codice:
+1. input:focus → outline: none  (toglie il contorno browser)
+2. border-color: #667eea       (tuo bordo colorato)
+3. box-shadow: 0 0 8px ...    (TUA ombra glow personalizzata ✨)
+
+⚠️  ACCESSIBILITÀ IMPORTANTE:
+- NON rimuovere outline SENZA sostituirlo (qui lo sostituisci con box-shadow)
+- Utenti tastiera devono sapere quale elemento è attivo
+- La tua box-shadow azzurra fa lo stesso lavoro del outline originale!
+
+ALTERNATIVA (non raccomandata):
+outline: 2px solid #667eea; 
+
+Invece di toglierlo, personalizzalo
+*/
+.goal-input-group input:focus,
+.goal-input-group select:focus {
+	outline: none;
+	border-color: #667eea;
+	box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+}
+
+/*
+ ================================================================
+ SOLUZIONE 9:  Hover sul button
+ ================================================================
+ */
+.save-btn:hover {
+	background: #5a67d8;
+	translate: 0 -2px;
+	box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+.save-btn {
+	transition: translate 0.5s ease, box-shadow 0.5s ease;
+}
+
+/*
+ ================================================================
+ SOLUZIONE 10: Percentuale nella barra di progresso
+ ================================================================
+ */
+.progress-fill::after {
+	content: '65%';
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	translate: 0 -50%;
+	color: white;
+	font-size: 0.7rem;
+	font-weight: bold;
+}
+
+/*
+ ================================================================
+ SOLUZIONE 11: Hover sui link di navigazione
+ ================================================================
+ */
+.nav-item:hover {
+	background: #34495e;
+	color: #667eea;
+}
+
+/*
+ ================================================================
+ SOLUZIONE 11: Primo link nav attivo
+ ================================================================
+ */
+.nav-item:first-child {
+	background: #34495e;
+	color: #667eea;
+}
+
+/*
+ ================================================================
+ SOLUZIONE 13: Virgolette alla citazione
+ ================================================================
+ */
+.quote-box::before {
+	content: '"';
+	position: absolute;
+	top: 5px;
+	left: 10px;
+	font-size: 3rem;
+	opacity: 0.3;
+}
+
+.quote-box::after {
+	content: '"';
+	position: absolute;
+	bottom: 5px;
+	right: 10px;
+	font-size: 3rem;
+	opacity: 0.3;
+}
