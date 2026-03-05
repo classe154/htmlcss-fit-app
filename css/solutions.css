@@ -42,6 +42,7 @@ TRUCCHI:
 	color: white;
 }
 
+
 .stats-container .stats-grid:nth-child(3) .stat-number,
 .stats-container .stats-grid:nth-child(3) .stat-label {
 	color: white;
@@ -152,7 +153,7 @@ TRUCCHI:
 */
 .goal-input-group input,
 .goal-input-group select {
-	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+	transition: all 0.5s ease;
 }
 
 /* 
@@ -182,11 +183,11 @@ outline: 2px solid #667eea;
 
 Invece di toglierlo, personalizzalo
 */
-.goal-input-group input:focus,
-.goal-input-group select:focus {
+.goals-container .goal-input-group input:focus,
+.goals-container .goal-input-group select:focus {
 	outline: none;
 	border-color: #667eea;
-	box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+	box-shadow: 0 10px 8px rgba(102, 126, 234, 0.3);
 }
 
 /*
@@ -195,12 +196,12 @@ Invece di toglierlo, personalizzalo
  ================================================================
  */
 .save-btn:hover {
-	background: #5a67d8;
+	background-color: #5a67d8;
 	translate: 0 -2px;
 	box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 .save-btn {
-	transition: translate 0.5s ease, box-shadow 0.5s ease;
+	transition: translate 0.5s ease, box-shadow 0.5s ease, background-color 0.5s ease;
 }
 
 /*
